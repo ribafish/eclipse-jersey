@@ -15,6 +15,7 @@
 [![Build Status](https://travis-ci.org/eclipse-ee4j/jersey.svg?branch=master)](https://travis-ci.org/eclipse-ee4j/jersey)
 &nbsp;[![EPL-2.0](./etc/epl.svg)](https://www.eclipse.org/legal/epl-2.0/)
 &nbsp;[![GPL+CPE-2.0](./etc/gpl.svg)](https://www.gnu.org/software/classpath/license.html)
+&nbsp;[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://develocity-staging.eclipse.org/)
 
 ### About Jersey
 
