@@ -783,6 +783,26 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>com.gradle</groupId>
+                    <artifactId>develocity-maven-extension</artifactId>
+                    <configuration>
+                        <develocity>
+                            <normalization>
+                                <runtimeClassPath>
+                                    <propertiesNormalizations>
+                                        <propertiesNormalization>
+                                            <path>**/build.properties</path>
+                                            <ignoredProperties>
+                                                <ignore>Build-Timestamp</ignore>
+                                            </ignoredProperties>
+                                        </propertiesNormalization>
+                                    </propertiesNormalizations>
+                                </runtimeClassPath>
+                            </normalization>
+                        </develocity>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
