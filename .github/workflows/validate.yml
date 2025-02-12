@@ -38,6 +38,8 @@ jobs:
           cache: maven
       - name: Copyright
         run: etc/scripts/copyright.sh
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       - name: Upload copyright info
         uses: actions/upload-artifact@v4
         with:
@@ -57,6 +59,8 @@ jobs:
           cache: maven
       - name: Checkstyle
         run: etc/scripts/checkstyle.sh
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       - name: Upload checkstyle info
         uses: actions/upload-artifact@v4
         with:
@@ -76,6 +80,8 @@ jobs:
           cache: maven
       - name: Build JDK17+ required modules
         run: mvn -B -U -V clean install -DskipTests -pl :jersey-helidon-connector -am
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4.1.0
         with:
@@ -84,6 +90,8 @@ jobs:
           cache: maven
       - name: Build ApiDocs
         run: etc/scripts/apidocs.sh
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
   archetypes:
     timeout-minutes: 45
     runs-on: ubuntu-latest
@@ -97,3 +105,5 @@ jobs:
           cache: maven
       - name: Test archetypes
         run: etc/scripts/test-archetypes.sh
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
