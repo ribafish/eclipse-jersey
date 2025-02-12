@@ -1,5 +1,12 @@
 #!/usr/bin/env groovy
 
+def secrets = [
+    [path: 'cbi/ee4j.jersey/develocity.eclipse.org', secretValues: [
+        [envVar: 'DEVELOCITY_ACCESS_KEY', vaultKey: 'api-token']
+        ]
+    ]
+]
+
 pipeline {
     agent any
     triggers {
@@ -42,7 +49,9 @@ pipeline {
                         done
                        '''
                         configFileProvider([configFile(fileId: CONFIG_FILE_ID, variable: 'MAVEN_SETTINGS_XML')]) {
-                            sh "$MVN -s $MAVEN_SETTINGS_XML clean install"
+                            withVault([vaultSecrets: secrets]) {
+                                sh "$MVN -s $MAVEN_SETTINGS_XML clean install"
+                            }
                         }
                     }
                 }

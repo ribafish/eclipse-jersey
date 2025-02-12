@@ -21,6 +21,13 @@ node {
     def   RELEASE_FOLDER='.'
     def   RELEASE_BRANCH=BRANCH
 
+    def secrets = [
+        [path: 'cbi/ee4j.jersey/develocity.eclipse.org', secretValues: [
+            [envVar: 'DEVELOCITY_ACCESS_KEY', vaultKey: 'api-token']
+            ]
+        ]
+    ]
+
     env.JAVA_HOME="/opt/tools/java/oracle/jdk-8/1.8.0_181"
     env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
     sh '/opt/tools/java/oracle/jdk-8/1.8.0_181/bin/java -version'
@@ -144,8 +151,10 @@ node {
                 configFileProvider([configFile(fileId: SECURITY_FILE_ID, targetLocation: '/home/jenkins/.m2/')]) {
 
                     configFileProvider([configFile(fileId: CONFIG_FILE_ID, variable: 'MAVEN_SETTINGS_XML')]) {
-                        sh "${MVN_HOME}/bin/mvn -q -B -s ${MAVEN_SETTINGS_XML} -DskipTests -Ddoclint=none -Dadditionalparam='-Xdoclint:none' " +
-                                " -U -C clean package source:jar javadoc:jar ${TARGET}"
+                        withVault([vaultSecrets: secrets]) {
+                            sh "${MVN_HOME}/bin/mvn -q -B -s ${MAVEN_SETTINGS_XML} -DskipTests -Ddoclint=none -Dadditionalparam='-Xdoclint:none' " +
+                                    " -U -C clean package source:jar javadoc:jar ${TARGET}"
+                        }
                     }
                 }
         }

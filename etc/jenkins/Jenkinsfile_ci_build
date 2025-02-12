@@ -1,3 +1,10 @@
+def secrets = [
+    [path: 'cbi/ee4j.jersey/develocity.eclipse.org', secretValues: [
+        [envVar: 'DEVELOCITY_ACCESS_KEY', vaultKey: 'api-token']
+        ]
+    ]
+]
+
 pipeline {
     agent none
 
@@ -19,9 +26,11 @@ pipeline {
                         maven 'apache-maven-latest'
                     }
                     steps {
-                        sh '''
-                                bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
-                            '''
+                        withVault([vaultSecrets: secrets]) {
+                            sh '''
+                                    bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
+                                '''
+                        }
                     }
                 }
                 stage('JDK 11') {
@@ -33,9 +42,11 @@ pipeline {
                         maven 'apache-maven-latest'
                     }
                     steps {
-                        sh '''
-                                bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
-                            '''
+                        withVault([vaultSecrets: secrets]) {
+                            sh '''
+                                    bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
+                                '''
+                        }
                     }
                 }
                 stage('JDK 21') {
@@ -47,9 +58,11 @@ pipeline {
                         maven 'apache-maven-latest'
                     }
                     steps {
-                        sh '''
-                                bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
-                            '''
+                        withVault([vaultSecrets: secrets]) {
+                            sh '''
+                                    bash ${WORKSPACE}/etc/jenkins/jenkins_build.sh
+                                '''
+                        }
                     }
                 }
             }
